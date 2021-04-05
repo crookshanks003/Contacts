@@ -1,0 +1,4 @@
+{
+    "mongoURI" : "mongodb+srv://pritesh03:pritesh@collection.ajaam.mongodb.net/collection?retryWrites=true&w=majority",
+    "jwtSecret": "secret"
+}
