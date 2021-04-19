@@ -4,10 +4,17 @@ const User = require("../models/User");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
+const auth = require("./Auth");
 const config = require("config");
 
-router.get("/", (req, res) => {
-    res.send("User logged in");
+router.get("/", auth, async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password");
+        res.json(user);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Server Error" });
+    }
 });
 
 router.post(
