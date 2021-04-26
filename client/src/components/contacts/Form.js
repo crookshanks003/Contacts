@@ -1,7 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ContactContext from "../../context/Contacts/contactsContext";
 
 const Form = () => {
+    const contactContext = useContext(ContactContext);
+    const { current } = contactContext;
+    useEffect(() => {
+        if (current !== null) {
+            setContact(current);
+        } else {
+            setContact({
+                email: "",
+                name: "",
+                phone: "",
+                type: "personal",
+            });
+        }
+    }, [contactContext, current]);
+
     const [contact, setContact] = useState({
         email: "",
         name: "",
@@ -9,24 +24,28 @@ const Form = () => {
         type: "personal",
     });
 
-    const contactContext = useContext(ContactContext);
-
     const onChange = e =>
         setContact({ ...contact, [e.target.name]: e.target.value });
 
+    const allClear = () => {
+        contactContext.clearCurrent();
+    };
+
     const onSubmit = e => {
         e.preventDefault();
-        contactContext.addContact(contact);
-        setContact({
-            email: "",
-            name: "",
-            phone: "",
-            type: "personal",
-        });
+        if (current === null) {
+            contactContext.addContact(contact);
+        } else {
+            contactContext.updateContact(contact);
+        }
+        allClear();
     };
 
     return (
         <form onSubmit={onSubmit}>
+            <h2 className="text-primary">
+                {current === null ? "Add Contact" : "Update Contact"}
+            </h2>
             <input
                 type="text"
                 placeholder="Name"
@@ -64,13 +83,18 @@ const Form = () => {
                 onChange={onChange}
             />{" "}
             Professional
-            <div>
                 <input
                     type="submit"
-                    value="Add Contact"
+                    value={current === null ? 'Add Contact' : 'Update Contact'}
                     className="btn btn-primary btn-block"
                 />
-            </div>
+            {current && (
+                    <button
+                        className="btn btn-light btn-block"
+                        onClick={allClear}>
+                        Cancel
+                    </button>
+            )}
         </form>
     );
 };

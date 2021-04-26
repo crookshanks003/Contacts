@@ -1,6 +1,7 @@
 import React from "react";
 import Contacts from "../contacts/Contacts";
 import Form from "../contacts/Form";
+import Search from "../contacts/Search";
 
 const Home = () => {
     return (
@@ -9,6 +10,7 @@ const Home = () => {
                 <Form />
             </div>
             <div>
+                <Search />
                 <Contacts />
             </div>
         </div>

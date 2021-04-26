@@ -3,7 +3,9 @@ import ContactsContext from "../../context/Contacts/contactsContext";
 import Contact from "./Contact";
 const Contacts = () => {
     const contactsContext = useContext(ContactsContext);
-    const contacts = contactsContext.contacts
+    const contacts = contactsContext.filter
+        ? contactsContext.filter
+        : contactsContext.contacts;
     return (
         <div>
             {contacts.map(contact => (
