@@ -5,22 +5,46 @@ import { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import ContactState from "./context/Contacts/ContactsState";
+import Login from "./components/pages/Login";
+import Register from "./components/pages/Register";
+import AuthState from "./context/Auth/authState";
+import ErrorState from "./context/error/errorState";
+import Error from "./components/layout/Error"
 
 function App() {
     return (
-        <ContactState>
-            <Router>
-                <Fragment>
-                    <Navbar />
-                    <div className="container">
-                        <Switch>
-                            <Route exact path="/" component={Home} />
-                            <Route exact path="/about" component={About} />
-                        </Switch>
-                    </div>
-                </Fragment>
-            </Router>
-        </ContactState>
+        <AuthState>
+            <ContactState>
+                <ErrorState>
+                    <Router>
+                        <Fragment>
+                            <Navbar />
+                            <div className="container">
+                                <Error/>
+                                <Switch>
+                                    <Route exact path="/" component={Home} />
+                                    <Route
+                                        exact
+                                        path="/about"
+                                        component={About}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/login"
+                                        component={Login}
+                                    />
+                                    <Route
+                                        exact
+                                        path="/register"
+                                        component={Register}
+                                    />
+                                </Switch>
+                            </div>
+                        </Fragment>
+                    </Router>
+                </ErrorState>
+            </ContactState>
+        </AuthState>
     );
 }
 

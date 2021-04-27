@@ -5,6 +5,15 @@ export const CLEAR_CURRENT = 'CLEAR_CURRENT'
 export const UPDATE_CONTACT = 'UPDATE_CONTACT'
 export const SET_FILTER = 'SET_FILTER'
 export const CLEAR_FILTER = 'CLEAR_FILTER'
+export const SET_ALERT = 'SET_ALERT'
+export const CLEAR_ALERT = 'CLEAR_ALERT'
+export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const REGISTER_SUCCESS = 'REGISTER_SUCCESS'
+export const REGISTER_FAILED = 'REGISTER_FAILED'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_FAILED = 'LOGIN_FAILED'
+export const LOAD_USER = 'LOAD_USER'
+export const LOAD_FAILED = 'LOAD_FAILED'
 
 
 

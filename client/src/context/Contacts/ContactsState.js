@@ -7,7 +7,8 @@ import {
     ADD_CURRENT,
     CLEAR_CURRENT,
     UPDATE_CONTACT,
-    SET_FILTER
+    SET_FILTER,
+    CLEAR_FILTER,
 } from "../types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -30,7 +31,7 @@ const ContactState = props => {
             },
         ],
         current: null,
-        filter: null
+        filter: null,
     };
     const [state, dispatch] = useReducer(ContactReducer, initialState);
 
@@ -51,7 +52,9 @@ const ContactState = props => {
     const updateContact = contact =>
         dispatch({ type: UPDATE_CONTACT, payload: contact });
 
-    const setFilter = text => dispatch({type: SET_FILTER, payload:text})
+    const setFilter = text => dispatch({ type: SET_FILTER, payload: text });
+
+    const clearFilter = () => dispatch({ type: CLEAR_FILTER });
 
     return (
         <ContactContext.Provider
@@ -64,7 +67,8 @@ const ContactState = props => {
                 setCurrent,
                 clearCurrent,
                 updateContact,
-                setFilter
+                setFilter,
+                clearFilter
             }}>
             {props.children}
         </ContactContext.Provider>
