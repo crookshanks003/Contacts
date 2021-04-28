@@ -52,6 +52,7 @@ const Form = () => {
                 name="name"
                 onChange={onChange}
                 value={contact.name}
+                required
             />
             <input
                 type="email"
@@ -59,6 +60,7 @@ const Form = () => {
                 name="email"
                 onChange={onChange}
                 value={contact.email}
+                required
             />
             <input
                 type="text"

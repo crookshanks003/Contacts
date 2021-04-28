@@ -35,13 +35,13 @@ router.post(
             let user = await User.findOne({ email });
 
             if (!user) {
-                return res.status(400).json({ error: "User does not exist" });
+                return res.status(400).json({ error: "User does not exist", type:"login" });
             }
 
             const isMatch = await bcrypt.compare(password, user.password);
 
             if (!isMatch) {
-                return res.status(400).json({ error: "Authentication failed" });
+                return res.status(400).json({ error: "Incorrect password", type: "login" });
             }
 
             jwt.sign(

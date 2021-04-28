@@ -6,6 +6,8 @@ import {
     SET_FILTER,
     CLEAR_FILTER,
     UPDATE_CONTACT,
+    LOAD_CONTACT,
+    CLEAR_CONTACT
 } from "../types";
 
 const ContactReducer = (state, action) => {
@@ -14,13 +16,14 @@ const ContactReducer = (state, action) => {
             return {
                 ...state,
                 contacts: [...state.contacts, action.payload],
+                loading: false
             };
 
         case DELETE_CONTACT:
             return {
                 ...state,
                 contacts: state.contacts.filter(
-                    contact => contact.id !== action.payload
+                    contact => contact._id !== action.payload
                 ),
             };
 
@@ -37,7 +40,7 @@ const ContactReducer = (state, action) => {
             return {
                 ...state,
                 contacts: state.contacts.map(contact =>
-                    contact.id === action.payload.id ? action.payload : contact
+                    contact._id === action.payload._id ? action.payload : contact
                 ),
             };
 
@@ -60,6 +63,20 @@ const ContactReducer = (state, action) => {
                 filter: null,
             };
 
+        case LOAD_CONTACT: {
+            return {
+                ...state,
+                contacts: action.payload,
+                loading: false
+            };
+        }
+        case CLEAR_CONTACT: {
+            return {
+                ...state, 
+                contacts: [],
+                loading: false
+            }
+        }
         default:
             return state;
     }

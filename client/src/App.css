@@ -152,6 +152,9 @@ img {
 .mt {
   margin-top: 0.5rem;
 }
+.mt-4 {
+  margin-top: 4rem;
+}
 .my {
   margin: 0.5rem 0;
 }
@@ -171,7 +174,7 @@ img {
   margin-right: 1rem;
 }
 
-/* Grid */
+/* / Grid */ 
 .grid-2 {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

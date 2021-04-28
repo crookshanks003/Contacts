@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import ErrorContext from "../../context/error/ErrorContext";
 import AuthContext from "../../context/Auth/AuthContext";
 
-const Register = (props) => {
+const Register = props => {
     const [user, setUser] = useState({
         name: "",
         email: "",
@@ -14,14 +14,14 @@ const Register = (props) => {
     const authContext = useContext(AuthContext);
 
     useEffect(() => {
-        if (authContext.isAuthenticated) {
-            props.history.push("/")
-        }
-        if (authContext.error === "User already exist") {
+        if (authContext.error && authContext.error.type === "register") {
             errorContext.setAlert("User already exist", "danger");
             authContext.clearError();
         }
-    }, [authContext, errorContext]);
+        if (localStorage.getItem("token")) {
+            props.history.push("/");
+        }
+    }, [authContext, errorContext,props]);
 
     const onChange = e => setUser({ ...user, [e.target.name]: e.target.value });
 

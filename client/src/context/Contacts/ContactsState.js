@@ -9,38 +9,40 @@ import {
     UPDATE_CONTACT,
     SET_FILTER,
     CLEAR_FILTER,
+    LOAD_CONTACT,
+    CLEAR_CONTACT,
 } from "../types";
-import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 const ContactState = props => {
     const initialState = {
-        contacts: [
-            {
-                id: 1,
-                name: "Pritesh Mantri",
-                email: "priteshpmantri@gmail.com",
-                phone: "9423591543",
-                type: "personal",
-            },
-            {
-                id: 2,
-                name: "Shivam Handa",
-                email: "handashivam@gmail.com",
-                phone: "9999999999",
-                type: "professional",
-            },
-        ],
+        contacts: [],
         current: null,
         filter: null,
+        loading: true,
     };
     const [state, dispatch] = useReducer(ContactReducer, initialState);
 
-    const addContact = contact => {
-        contact.id = uuidv4();
-        dispatch({ type: ADD_CONTACT, payload: contact });
+    const loadContact = async () => {
+        const data = await axios.get("/api/contacts", {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+        });
+        dispatch({ type: LOAD_CONTACT, payload: data.data });
     };
 
-    const deleteContact = id => {
+    const addContact = async contact => {
+        console.log("adding contact");
+        const data = await axios.post("/api/contacts", contact, {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+        });
+        dispatch({ type: ADD_CONTACT, payload: data.data });
+        console.log("contact added");
+    };
+
+    const deleteContact = async id => {
+        await axios.delete(`/api/contacts/${id}`, {
+            headers: { "x-auth-token": localStorage.getItem("token") },
+        });
         dispatch({ type: DELETE_CONTACT, payload: id });
     };
 
@@ -49,12 +51,20 @@ const ContactState = props => {
 
     const clearCurrent = () => dispatch({ type: CLEAR_CURRENT });
 
-    const updateContact = contact =>
+    const updateContact = async contact => {
+        await axios.put(`/api/contacts/${contact._id}`, contact, {
+            headers: {
+                "x-auth-token": localStorage.getItem("token"),
+                "Content-Type": "application/json",
+            },
+        });
         dispatch({ type: UPDATE_CONTACT, payload: contact });
-
+    };
     const setFilter = text => dispatch({ type: SET_FILTER, payload: text });
 
     const clearFilter = () => dispatch({ type: CLEAR_FILTER });
+
+    const clearContacts = () => dispatch({type: CLEAR_CONTACT})
 
     return (
         <ContactContext.Provider
@@ -62,13 +72,16 @@ const ContactState = props => {
                 contacts: state.contacts,
                 current: state.current,
                 filter: state.filter,
+                loading: state.loading,
                 addContact,
                 deleteContact,
                 setCurrent,
                 clearCurrent,
                 updateContact,
                 setFilter,
-                clearFilter
+                clearFilter,
+                loadContact,
+                clearContacts,
             }}>
             {props.children}
         </ContactContext.Provider>

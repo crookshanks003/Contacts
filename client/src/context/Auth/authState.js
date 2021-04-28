@@ -10,6 +10,7 @@ import {
     LOGIN_SUCCESS,
     LOAD_USER,
     LOAD_FAILED,
+    LOGOUT_USER
 } from "../types";
 
 const AuthState = props => {
@@ -26,11 +27,14 @@ const AuthState = props => {
         try {
             if (localStorage.getItem("token")) {
                 const data = await axios.get("/api/login", {
-                    headers: { "x-auth-token": state.token },
+                    headers: { "x-auth-token": localStorage.getItem("token") },
                 });
                 dispatch({ type: LOAD_USER, payload: data.data });
-            }
+            } else {
+                dispatch({type: LOAD_FAILED})
+            } 
         } catch (error) {
+            console.log(error.response.data);
             dispatch({ type: LOAD_FAILED, payload: error.response.data.error });
         }
     };
@@ -51,7 +55,7 @@ const AuthState = props => {
         } catch (error) {
             dispatch({
                 type: REGISTER_FAILED,
-                payload: error.response.data.error,
+                payload: error.response.data,
             });
         }
     };
@@ -67,13 +71,16 @@ const AuthState = props => {
                 { headers: { "Content-Type": "application/json" } }
             );
             dispatch({ type: LOGIN_SUCCESS, payload: data.data });
+            loadUser()
         } catch (error) {
             dispatch({
                 type: LOGIN_FAILED,
-                payload: error.response.data.error,
+                payload: error.response.data,
             });
         }
     };
+
+    const logOut = () => dispatch({type: LOGOUT_USER})
 
     const clearError = () => {
         dispatch({ type: CLEAR_ERROR });
@@ -83,11 +90,15 @@ const AuthState = props => {
         <AuthContext.Provider
             value={{
                 user: state.user,
-                isAuth: state.isAuthenticated,
+                loading: state.loading,
+                isAuthenticated: state.isAuthenticated,
                 token: state.token,
                 error: state.error,
                 registerUser,
                 clearError,
+                loginUser,
+                loadUser,
+                logOut,
             }}>
             {props.children}
         </AuthContext.Provider>

@@ -1,14 +1,25 @@
-import React, { useState, useContext } from "react";
-import Error from "../layout/Error"
+import React, { useState, useContext, useEffect } from "react";
 import ErrorContext from "../../context/error/ErrorContext"
+import AuthContext from "../../context/Auth/AuthContext";
 
-const Login = () => {
+const Login = (props) => {
     const [user, setUser] = useState({
         email: "",
         password: "",
         showPassword: false,
     });
     const errorContext = useContext(ErrorContext)
+    const authContext = useContext(AuthContext)
+
+    useEffect(() => {
+        if (authContext.error && authContext.error.type === "login"){
+            errorContext.setAlert(authContext.error.error, "danger")
+            authContext.clearError()
+        }
+        if (localStorage.getItem("token")){
+            props.history.push("/")
+        }
+    }, [authContext, errorContext,props])
 
     const onChange = e => {
         setUser({ ...user, [e.target.name]: e.target.value });
@@ -16,7 +27,7 @@ const Login = () => {
 
     const onSubmit = e => {
         e.preventDefault();
-
+        authContext.loginUser({email: user.email, password:user.password})
     };
 
     return (

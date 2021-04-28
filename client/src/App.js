@@ -10,6 +10,7 @@ import Register from "./components/pages/Register";
 import AuthState from "./context/Auth/authState";
 import ErrorState from "./context/error/errorState";
 import Error from "./components/layout/Error"
+import PrivateRoute from "./components/pages/PrivateRoute"
 
 function App() {
     return (
@@ -22,7 +23,7 @@ function App() {
                             <div className="container">
                                 <Error/>
                                 <Switch>
-                                    <Route exact path="/" component={Home} />
+                                    <PrivateRoute exact path="/" component={Home} />
                                     <Route
                                         exact
                                         path="/about"

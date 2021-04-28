@@ -5,7 +5,7 @@ const Contact = ({ contact }) => {
     const contactContext = useContext(ContactContext);
     const deleteContact = () => {
         alert(`The contact ${contact.name} will be deleted`);
-        contactContext.deleteContact(contact.id);
+        contactContext.deleteContact(contact._id);
     };
 
     const setCurrent = () => contactContext.setCurrent(contact);

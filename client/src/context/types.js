@@ -3,6 +3,7 @@ export const DELETE_CONTACT = 'DELETE_CONTACT'
 export const ADD_CURRENT = 'ADD_CURRENT'
 export const CLEAR_CURRENT = 'CLEAR_CURRENT'
 export const UPDATE_CONTACT = 'UPDATE_CONTACT'
+export const CLEAR_CONTACT = 'CLEAR_CONTACT'
 export const SET_FILTER = 'SET_FILTER'
 export const CLEAR_FILTER = 'CLEAR_FILTER'
 export const SET_ALERT = 'SET_ALERT'
@@ -14,6 +15,8 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
 export const LOGIN_FAILED = 'LOGIN_FAILED'
 export const LOAD_USER = 'LOAD_USER'
 export const LOAD_FAILED = 'LOAD_FAILED'
+export const LOGOUT_USER = 'LOGOUT_USER'
+export const LOAD_CONTACT = 'LOAD_CONTACT'
 
 
 
